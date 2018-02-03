@@ -223,17 +223,17 @@ export default {
     },
     checkOut(newDate) {
 
-      if ( this.checkOut !== null && this.checkOut !== null ) {
+      if (this.checkOut !== null && this.checkOut !== null) {
         this.hoveringDate = null;
         this.nextDisabledDate = null;
         this.show = true;
         this.parseDisabledDates();
         this.reRender()
         this.isOpen = true;
+        this.$emit("closeDatepicker");
       }
 
       this.$emit("checkOutChanged", newDate);
-      this.$emit("closeDatepicker");
     },
 
   },
