@@ -1,7 +1,7 @@
 <template lang='pug'>
   .datepicker__wrapper(v-if='show' v-on-click-outside="hideDatepicker")
-    .datepicker__close-button.-hide-on-desktop(v-if='isOpen' @click='hideDatepicker') ＋
-    .datepicker__dummy-wrapper( @click='isOpen = !isOpen' :class="`${isOpen ? 'datepicker__dummy-wrapper--is-active' : ''}` ")
+    //- .datepicker__close-button.-hide-on-desktop(v-if='isOpen' @click='hideDatepicker') ＋
+    //- .datepicker__dummy-wrapper( @click='isOpen = !isOpen' :class="`${isOpen ? 'datepicker__dummy-wrapper--is-active' : ''}` ")
       input.datepicker__dummy-input.datepicker__input(
         data-qa='datepickerInput'
         :class="`${isOpen && checkIn == null ? 'datepicker__dummy-input--is-active' : ''} ${singleDaySelection ? 'datepicker__dummy-input--single-date' : ''}`"
@@ -18,7 +18,7 @@
         type="text"
         readonly
       )
-    button.datepicker__clear-button(type='button' @click='clearSelection') ＋
+    //- button.datepicker__clear-button(type='button' @click='clearSelection') ＋
     .datepicker( :class='`${ !isOpen ? "datepicker--closed" : "datepicker--open" }`')
       .-hide-on-desktop
         .datepicker__dummy-wrapper.datepicker__dummy-wrapper--no-border(
@@ -133,7 +133,7 @@ export default {
     },
     endingDateValue: {
       default: null,
-      type: Date 
+      type: Date
     },
     format: {
       default: 'YYYY-MM-DD',
@@ -451,25 +451,19 @@ $extra-small-screen: '(max-width: 23em)';
   float: left;
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
 /* =============================================================
  * VARIABLES
  * ============================================================*/
-$white: #fff;
-$black:                #000;
-$gray:                 #424b53;
-$primary-text-color:   #35343d;
-$lightest-gray:        #f3f5f8;
-$primary-color: #00ca9d;
+$white:                #ffffff;
+$black:                #032031;
+$gray:                 #8b8b8b;
+$primary-text-color:   #032031;
+$lightest-gray:        #dce0e3;
+$primary-color:        #f7c156;
 $primary-color: $primary-color;
-$medium-gray: #999999;
-$light-gray: #d7d9e2;
-$dark-gray: #2d3047;
+$medium-gray:          #807974;
+$light-gray:           #dce0e3;
+$dark-gray:            #e8edf0;
 
 $font-small: 14px;
 
@@ -478,9 +472,9 @@ $font-small: 14px;
  * ============================================================*/
 
 .datepicker {
-  transition: all .2s ease-in-out;
-  background-color: $white;
-  color: $gray;
+  transition: all .5s ease-in-out;
+  background-color: $dark-gray;
+  color: $black;
   font-size: 16px;
   line-height: 14px;
   overflow: hidden;
@@ -488,6 +482,12 @@ $font-small: 14px;
   top: 48px;
   position: absolute;
   z-index: 10;
+
+  & *,
+  & *::before,
+  & *::after {
+    box-sizing: border-box;
+  }
 
   &--closed {
     box-shadow: 0 15px 30px 10px rgba($black, 0);
@@ -513,7 +513,6 @@ $font-small: 14px;
     display: inline-block;
     width: 100%;
     height: 48px;
-    background: $white url('calendar_icon.regular.svg') no-repeat 17px center / 16px;
   }
 
   &__input {
@@ -594,6 +593,7 @@ $font-small: 14px;
   &__month-day {
     visibility: visible;
     will-change: auto;
+    cursor: pointer;
     text-align: center;
     margin: 0;
     border: 0;
@@ -699,6 +699,11 @@ $font-small: 14px;
     @include device($up-to-tablet) { padding: 0; }
   }
 
+  &__header {
+    font-family: 'francois-one';
+    font-weight: bold;
+  }
+
   &__months {
     @include device($desktop) { width: 650px; }
 
@@ -728,7 +733,7 @@ $font-small: 14px;
   }
 
   &__month {
-    font-size: 12px;
+    font-size: 16px;
     float: left;
     width: 50%;
     padding-right: 10px;
@@ -780,7 +785,6 @@ $font-small: 14px;
   }
 
   &__week-row {
-    border-bottom: 5px solid $white;
     height: 38px;
 
     @include device($up-to-tablet) {
@@ -798,8 +802,9 @@ $font-small: 14px;
     float: left;
     font-size: 12px;
     font-weight: 400;
-    color: $medium-gray;
+    color: $black;
     text-align: center;
+    text-transform: uppercase;
   }
 
   &__close-button {
@@ -842,7 +847,7 @@ $font-small: 14px;
   }
 
   &__tooltip {
-    background-color: $dark-gray;
+    background-color: $medium-gray;
     border-radius: 2px;
     color: $white;
     font-size: 11px;

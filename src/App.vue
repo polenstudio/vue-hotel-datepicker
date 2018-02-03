@@ -119,7 +119,7 @@ export default {
 <style>
 body,
 html {
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: 'roboto-regular';
 }
 
 .box {
