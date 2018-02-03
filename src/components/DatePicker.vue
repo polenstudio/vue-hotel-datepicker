@@ -183,7 +183,7 @@ export default {
       activeMonthIndex: 0,
       nextDisabledDate: null,
       show: true,
-      isOpen: false,
+      isOpen: true,
       xDown: null,
       yDown: null,
       xUp: null,
@@ -216,8 +216,7 @@ export default {
         this.nextDisabledDate = null;
         this.show = true;
         this.parseDisabledDates();
-        this.reRender()
-        this.isOpen = false;
+        this.reRender();
       }
 
       this.$emit("checkOutChanged", newDate )
