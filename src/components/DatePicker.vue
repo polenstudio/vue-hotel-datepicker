@@ -183,7 +183,7 @@ export default {
       activeMonthIndex: 0,
       nextDisabledDate: null,
       show: true,
-      isOpen: true,
+      isOpen: false,
       xDown: null,
       yDown: null,
       xUp: null,
