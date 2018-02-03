@@ -195,7 +195,7 @@ export default {
       activeMonthIndex: 0,
       nextDisabledDate: null,
       show: true,
-      isOpen: false,
+      isOpen: true,
       xDown: null,
       yDown: null,
       xUp: null,
@@ -232,7 +232,8 @@ export default {
         this.isOpen = true;
       }
 
-      this.$emit("checkOutChanged", newDate )
+      this.$emit("checkOutChanged", newDate);
+      this.$emit("closeDatepicker");
     },
 
   },
@@ -294,7 +295,7 @@ export default {
       this.reRender()
     },
 
-    hideDatepicker() { this.isOpen = false; },
+    hideDatepicker() { this.$emit("closeDatepicker"); },
 
     showDatepicker() { this.isOpen = true; },
 
