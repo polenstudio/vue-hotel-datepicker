@@ -1,7 +1,7 @@
 <template lang='pug'>
   .datepicker__wrapper(v-if='show' v-on-click-outside="hideDatepicker")
     .datepicker__close-button.-hide-on-desktop(v-if='isOpen' @click='hideDatepicker') ＋
-    //- .datepicker__dummy-wrapper( @click='isOpen = !isOpen' :class="`${isOpen ? 'datepicker__dummy-wrapper--is-active' : ''}` ")
+    .datepicker__dummy-wrapper( @click='isOpen = !isOpen' :class="`${isOpen ? 'datepicker__dummy-wrapper--is-active' : ''}` ")
       input.datepicker__dummy-input.datepicker__input(
         data-qa='datepickerInput'
         :class="`${isOpen && checkIn == null ? 'datepicker__dummy-input--is-active' : ''} ${singleDaySelection ? 'datepicker__dummy-input--single-date' : ''}`"
@@ -41,16 +41,16 @@
           )
       .datepicker__inner
         .datepicker__header
-          span.datepicker__month-button.datepicker__month-button--prev.-hide-up-to-tablet(
+          span.datepicker__month-button.datepicker__month-button--prev.-hide-up-to-desktop(
             @click='renderPreviousMonth'
           )
-          span.datepicker__month-button.datepicker__month-button--next.-hide-up-to-tablet(
+          span.datepicker__month-button.datepicker__month-button--next.-hide-up-to-desktop(
             @click='renderNextMonth'
           )
         .datepicker__months(v-if='screenSize == "desktop"')
           div.datepicker__month(v-for='n in [0,1]'  v-bind:key='n')
             h1.datepicker__month-name(v-text='getMonth(months[activeMonthIndex+n].days[15].date)')
-            .datepicker__week-row.-hide-up-to-tablet
+            .datepicker__week-row.-hide-up-to-desktop
               .datepicker__week-name(v-for='dayName in i18n["day-names"]' v-text='dayName')
             .square(v-for='day in months[activeMonthIndex+n].days'
               @mouseover='hoveringDate = day.date')
@@ -74,7 +74,7 @@
           .datepicker__months#swiperWrapper
             div.datepicker__month(v-for='(a, n) in months' v-bind:key='n')
               h1.datepicker__month-name(v-text='getMonth(months[n].days[15].date)')
-              .datepicker__week-row.-hide-up-to-tablet
+              .datepicker__week-row.-hide-up-to-desktop
                 .datepicker__week-name(v-for='dayName in i18n["day-names"]' v-text='dayName')
               .square(v-for='(day, index) in months[n].days'
                 @mouseover='hoveringDate = day.date'
@@ -247,15 +247,11 @@ export default {
     ...Helpers,
 
     handleWindowResize() {
-      let screenSizeInEm = window.innerWidth / parseFloat(getComputedStyle(document.querySelector('body'))['font-size']);
+      let screenSizeInEm = window.innerWidth;
 
-      if (screenSizeInEm < 31) {
+      if (screenSizeInEm <= 664) {
         this.screenSize = 'smartphone';
-      }
-      else if (screenSizeInEm > 30 && screenSizeInEm < 49) {
-        this.screenSize = 'tablet';
-      }
-      else if (screenSizeInEm > 48) {
+      } else if (screenSizeInEm > 664) {
         this.screenSize = 'desktop';
       }
 
@@ -435,12 +431,9 @@ export default {
 /* =============================================================
  * RESPONSIVE LAYOUT HELPERS
  * ============================================================*/
-$tablet: '(min-width: 30em) and (max-width: 49em)';
-$phone: '(max-width: 30em)';
-$desktop: '(min-width: 49em)';
-$tablet-up: '(min-width: 30em)';
-$up-to-tablet: '(max-width: 49em)';
-$extra-small-screen: '(max-width: 23em)';
+$small: '(max-width: 664px)';
+$large: '(min-width: 968px)';
+$beyond: '(min-width: 1598px)';
 
 @mixin device($device-widths) {
   @media screen and #{$device-widths} { @content }
@@ -473,7 +466,7 @@ $font-small: 14px;
 
 .datepicker {
   transition: all .5s ease-in-out;
-  background-color: $dark-gray;
+  background-color: $white;
   color: $black;
   font-size: 16px;
   line-height: 14px;
@@ -496,23 +489,26 @@ $font-small: 14px;
 
   &--open {
     box-shadow: 0 15px 30px 10px rgba($black, .08);
-    max-height: 900px;
 
-    @include device($up-to-tablet) {
+    @include device($small) {
       box-shadow: none;
-      height: 100%;
+      height: 100vh;
       left: 0;
       position: fixed;
       top: 0;
+      bottom: 0;
+      right: 0;
+      overflow: hidden;
+      padding-bottom: 92px;
       width: 100%;
     }
   }
 
   &__wrapper {
     position: relative;
-    display: inline-block;
     width: 100%;
     height: 48px;
+    display: inline-block;
   }
 
   &__input {
@@ -567,7 +563,7 @@ $font-small: 14px;
     text-indent: 5px;
     width: calc(50% + 4px);
 
-    @include device($phone) {
+    @include device($small) {
       text-indent: 0;
       text-align: center;
     }
@@ -696,7 +692,7 @@ $font-small: 14px;
     padding: 20px;
     float: left;
 
-    @include device($up-to-tablet) { padding: 0; }
+    @include device($small) { padding: 0; }
   }
 
   &__header {
@@ -705,9 +701,7 @@ $font-small: 14px;
   }
 
   &__months {
-    @include device($desktop) { width: 650px; }
-
-    @include device($up-to-tablet) {
+    @include device($small) {
       margin-top: 92px;
       height: calc(100% - 92px);
       position: absolute;
@@ -728,7 +722,7 @@ $font-small: 14px;
       top: 0;
       width: 1px;
 
-      @include device($up-to-tablet) { display: none; }
+      @include device($small) { display: none; }
     }
   }
 
@@ -736,9 +730,14 @@ $font-small: 14px;
     font-size: 16px;
     float: left;
     width: 50%;
-    padding-right: 10px;
+    padding-right: 20px;
 
-    @include device($up-to-tablet) {
+    &:last-of-type {
+      padding-right: 0;
+      padding-left: 20px;
+    }
+
+    @include device($small) {
       width: 100%;
       padding-right: 0;
       padding-top: 45px;
@@ -747,13 +746,6 @@ $font-small: 14px;
         padding-top: 0;
         padding-left: 0;
         margin-top: 35px;
-      }
-    }
-
-    @include device($tablet-up) {
-      &:last-of-type {
-        padding-right: 0;
-        padding-left: 10px;
       }
     }
   }
@@ -766,12 +758,12 @@ $font-small: 14px;
   &__month-name {
     font-size: 16px;
     font-weight: 500;
-    margin-top: -40px;
+    margin-top: -38px;
     padding-bottom: 17px;
     pointer-events: none;
     text-align: center;
 
-    @include device($up-to-tablet) {
+    @include device($small) {
       margin-top: -25px;
       margin-bottom: 0;
       position: absolute;
@@ -787,7 +779,7 @@ $font-small: 14px;
   &__week-row {
     height: 38px;
 
-    @include device($up-to-tablet) {
+    @include device($small) {
       box-shadow: 0 13px 18px -8px rgba($black, .07);
       height: 25px;
       left: 0;
@@ -860,7 +852,7 @@ $font-small: 14px;
     &:after {
       border-left: 4px solid transparent;
       border-right: 4px solid transparent;
-      border-top: 4px solid $dark-gray;
+      border-top: 4px solid $medium-gray;
       bottom: -4px;
       content: '';
       left: 50%;
@@ -876,15 +868,17 @@ $font-small: 14px;
 
 .-is-hidden { display: none; }
 
-.-hide-up-to-tablet {
-  @include device($up-to-tablet) {
+.-hide-up-to-desktop {
+  @include device($small) {
     display: none;
   }
 }
 
 .-hide-on-desktop {
-  @include device($desktop) {
-    display: none;
+  display: none;
+
+  @include device($small) {
+    display: block;
   }
 }
 
