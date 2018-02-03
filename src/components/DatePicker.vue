@@ -538,7 +538,7 @@ $font-small: 14px;
   &__dummy-wrapper {
     border: solid 1px $light-gray;
     cursor: pointer;
-    display: none;
+    display: block;
     float: left;
     width: 100%;
     height: 100%;
@@ -868,7 +868,6 @@ $font-small: 14px;
 
 .-overflow-hidden {
   overflow: hidden;
-  position: fixed;
 }
 
 .-is-hidden { display: none; }
