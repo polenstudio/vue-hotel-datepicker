@@ -538,10 +538,14 @@ $font-small: 14px;
   &__dummy-wrapper {
     border: solid 1px $light-gray;
     cursor: pointer;
-    display: block;
+    display: none;
     float: left;
     width: 100%;
     height: 100%;
+
+    @include device($small) {
+      display: block;
+    }
 
     &--no-border.datepicker__dummy-wrapper {
       margin-top: 15px;
