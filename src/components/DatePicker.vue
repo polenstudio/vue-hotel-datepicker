@@ -1,24 +1,6 @@
 <template lang='pug'>
   .datepicker__wrapper(v-if='show' v-on-click-outside="hideDatepicker")
     .datepicker__close-button.-hide-on-desktop(v-if='isOpen' @click='hideDatepicker') ＋
-    .datepicker__dummy-wrapper( @click='isOpen = !isOpen' :class="`${isOpen ? 'datepicker__dummy-wrapper--is-active' : ''}` ")
-      input.datepicker__dummy-input.datepicker__input(
-        data-qa='datepickerInput'
-        :class="`${isOpen && checkIn == null ? 'datepicker__dummy-input--is-active' : ''} ${singleDaySelection ? 'datepicker__dummy-input--single-date' : ''}`"
-        :value="`${checkIn ? formatDate(checkIn) : ''}`"
-        :placeholder="i18n['check-in']"
-        type="text"
-        readonly
-      )
-      input.datepicker__dummy-input.datepicker__input(
-        v-if='!singleDaySelection'
-        :class="`${isOpen && checkOut == null && checkIn !== null ? 'datepicker__dummy-input--is-active' : ''}`"
-        :value="`${checkOut ? formatDate(checkOut) : ''}`"
-        :placeholder="i18n['check-out']"
-        type="text"
-        readonly
-      )
-    button.datepicker__clear-button(type='button' @click='clearSelection') ＋
     .datepicker( :class='`${ !isOpen ? "datepicker--closed" : "datepicker--open" }`')
       .-hide-on-desktop
         .datepicker__dummy-wrapper.datepicker__dummy-wrapper--no-border(
@@ -546,10 +528,6 @@ $font-small: 14px;
     &--no-border.datepicker__dummy-wrapper {
       margin-top: 15px;
       border: 0;
-    }
-
-    &--is-active {
-      border: 1px solid $primary-color;
     }
   }
 
