@@ -543,10 +543,6 @@ $font-small: 14px;
     width: 100%;
     height: 100%;
 
-    @include device($small) {
-      display: block;
-    }
-
     &--no-border.datepicker__dummy-wrapper {
       margin-top: 15px;
       border: 0;
