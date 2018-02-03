@@ -201,7 +201,7 @@ export default {
       activeMonthIndex: 0,
       nextDisabledDate: null,
       show: true,
-      isOpen: false,
+      isOpen: true,
       xDown: null,
       yDown: null,
       xUp: null,
@@ -474,6 +474,7 @@ $font-small: 14px;
   left: 0;
   top: 0;
   position: absolute;
+  width: 100%;
   z-index: 10;
 
   & *,
@@ -691,13 +692,13 @@ $font-small: 14px;
   &__inner {
     padding: 20px;
     float: left;
+    width: 100%;
 
     @include device($small) { padding: 0; }
   }
 
   &__header {
-    font-family: 'francois-one';
-    font-weight: bold;
+    text-align: left;
   }
 
   &__months {
@@ -756,6 +757,7 @@ $font-small: 14px;
   }
 
   &__month-name {
+    font-family: 'francois-one';
     font-size: 16px;
     font-weight: 500;
     margin-top: -38px;
@@ -864,7 +866,10 @@ $font-small: 14px;
 
 // Modifiers
 
-.-overflow-hidden { overflow: hidden; }
+.-overflow-hidden {
+  overflow: hidden;
+  position: fixed;
+}
 
 .-is-hidden { display: none; }
 
