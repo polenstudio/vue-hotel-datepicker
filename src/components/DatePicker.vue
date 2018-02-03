@@ -465,7 +465,7 @@ $font-small: 14px;
  * ============================================================*/
 
 .datepicker {
-  transition: all .5s ease-in-out;
+  transition: all 0.5s ease-in-out;
   background-color: $white;
   color: $black;
   font-size: 16px;
