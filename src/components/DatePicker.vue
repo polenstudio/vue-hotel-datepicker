@@ -1,6 +1,6 @@
 <template lang='pug'>
   .datepicker__wrapper(v-if='show' v-on-click-outside="hideDatepicker")
-    //- .datepicker__close-button.-hide-on-desktop(v-if='isOpen' @click='hideDatepicker') ＋
+    .datepicker__close-button.-hide-on-desktop(v-if='isOpen' @click='hideDatepicker') ＋
     //- .datepicker__dummy-wrapper( @click='isOpen = !isOpen' :class="`${isOpen ? 'datepicker__dummy-wrapper--is-active' : ''}` ")
       input.datepicker__dummy-input.datepicker__input(
         data-qa='datepickerInput'
@@ -18,7 +18,7 @@
         type="text"
         readonly
       )
-    //- button.datepicker__clear-button(type='button' @click='clearSelection') ＋
+    button.datepicker__clear-button(type='button' @click='clearSelection') ＋
     .datepicker( :class='`${ !isOpen ? "datepicker--closed" : "datepicker--open" }`')
       .-hide-on-desktop
         .datepicker__dummy-wrapper.datepicker__dummy-wrapper--no-border(
@@ -479,7 +479,7 @@ $font-small: 14px;
   line-height: 14px;
   overflow: hidden;
   left: 0;
-  top: 48px;
+  top: 0;
   position: absolute;
   z-index: 10;
 
@@ -676,7 +676,7 @@ $font-small: 14px;
   }
 
   &__month-button {
-    background: transparent url('ic-arrow-right-green.regular.svg') no-repeat right center / 8px;
+    background: transparent url('ic-arrow-right-green.regular.svg') no-repeat right center / 12px;
     cursor: pointer;
     display: inline-block;
     height: 60px;
