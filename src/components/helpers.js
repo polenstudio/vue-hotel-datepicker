@@ -85,10 +85,18 @@ export default {
     if (this.screenSize !== 'desktop' && this.isOpen) {
       const swiperWrapper = document.getElementById('swiperWrapper');
 
+      const renderNextMonth = (times = 4) => {
+        let x = times;
+
+        do {
+          this.renderNextMonth();
+        } while( x-- );
+      };
+
       // If wrapper has vertical scroll
       if (swiperWrapper.scrollHeight > swiperWrapper.clientHeight) {
         if( swiperWrapper.scrollTop === (swiperWrapper.scrollHeight - swiperWrapper.offsetHeight) ) {
-          this.renderNextMonth();
+          renderNextMonth(4);
         }
         else if ( swiperWrapper.scrollTop === 0){
           this.renderPreviousMonth();
@@ -96,7 +104,7 @@ export default {
         else { return; }
       }
       else if (direction == 'up'){
-        this.renderNextMonth();
+        renderNextMonth(4);
       }
       else if (direction == 'down') {
         this.renderPreviousMonth();

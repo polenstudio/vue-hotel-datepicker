@@ -234,8 +234,7 @@ export default {
       }
 
       this.$emit("checkOutChanged", newDate);
-    },
-
+    }
   },
 
   methods: {
