@@ -1,24 +1,6 @@
 <template lang='pug'>
   .datepicker__wrapper(v-if='show')
     .datepicker__close-button.-hide-on-desktop(v-if='isOpen' @click='hideDatepicker') ＋
-    .datepicker__dummy-wrapper( @click='isOpen = !isOpen' :class="`${isOpen ? 'datepicker__dummy-wrapper--is-active' : ''}` ")
-      input.datepicker__dummy-input.datepicker__input(
-        data-qa='datepickerInput'
-        :class="`${isOpen && checkIn == null ? 'datepicker__dummy-input--is-active' : ''} ${singleDaySelection ? 'datepicker__dummy-input--single-date' : ''}`"
-        :value="`${checkIn ? formatDate(checkIn) : ''}`"
-        :placeholder="i18n['check-in']"
-        type="text"
-        readonly
-      )
-      input.datepicker__dummy-input.datepicker__input(
-        v-if='!singleDaySelection'
-        :class="`${isOpen && checkOut == null && checkIn !== null ? 'datepicker__dummy-input--is-active' : ''}`"
-        :value="`${checkOut ? formatDate(checkOut) : ''}`"
-        :placeholder="i18n['check-out']"
-        type="text"
-        readonly
-      )
-    button.datepicker__clear-button(type='button' @click='clearSelection') ＋
     .datepicker( :class='`${ !isOpen ? "datepicker--closed" : "datepicker--open" }`')
       .-hide-on-desktop
         .datepicker__dummy-wrapper.datepicker__dummy-wrapper--no-border(
@@ -195,7 +177,7 @@ export default {
       activeMonthIndex: 0,
       nextDisabledDate: null,
       show: true,
-      isOpen: true,
+      isOpen: false,
       xDown: null,
       yDown: null,
       xUp: null,
@@ -207,20 +189,23 @@ export default {
 
   watch: {
     isOpen (value) {
-      if (this.screenSize !== 'desktop') {
-        const bodyClassList = document.querySelector('body').classList;
+      if (this.screenSize === 'smartphone') {
+        console.debug('this.screenSize === smartphone');
+        console.debug(value);
 
         if (value) {
-          bodyClassList.add('-overflow-hidden');
+          document.querySelector('body').classList.add('-overflow-hidden');
         }
         else {
-          bodyClassList.remove('-overflow-hidden');
+          document.querySelector('body').classList.remove('-overflow-hidden');
         }
       }
     },
+
     checkIn(newDate) {
       this.$emit("checkInChanged", newDate )
     },
+
     checkOut(newDate) {
 
       if (this.checkOut !== null && this.checkOut !== null) {
@@ -229,7 +214,7 @@ export default {
         this.show = true;
         this.parseDisabledDates();
         this.reRender()
-        this.isOpen = true;
+        this.isOpen = false;
         this.$emit("closeDatepicker");
       }
 
@@ -242,6 +227,8 @@ export default {
 
     handleWindowResize() {
       let screenSizeInEm = window.innerWidth;
+
+      console.debug(screenSizeInEm);
 
       if (screenSizeInEm <= 664) {
         this.screenSize = 'smartphone';
@@ -294,7 +281,10 @@ export default {
       this.reRender()
     },
 
-    hideDatepicker() { this.$emit("closeDatepicker"); },
+    hideDatepicker() {
+      this.isOpen = false;
+      this.$emit("closeDatepicker");
+    },
 
     showDatepicker() { this.isOpen = true; },
 
@@ -410,8 +400,6 @@ export default {
     this.onElementHeightChange(document.body, () => {
       this.emitHeighChangeEvent();
     });
-
-    this.showDatepicker();
   },
 
   destroyed() {
@@ -461,7 +449,7 @@ $font-small: 14px;
  * ============================================================*/
 
 .datepicker {
-  transition: all 0.5s ease-in-out;
+  transition: all 0.2s ease-in-out;
   background-color: $white;
   color: $black;
   font-size: 16px;
@@ -701,6 +689,8 @@ $font-small: 14px;
       left: 0;
       top: 0;
       overflow: scroll;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 60px;
       right: 0;
       bottom: 0;
     }
@@ -859,7 +849,9 @@ $font-small: 14px;
 // Modifiers
 
 .-overflow-hidden {
+  position: fixed;
   overflow: hidden;
+  height: 100vh;
 }
 
 .-is-hidden { display: none; }
