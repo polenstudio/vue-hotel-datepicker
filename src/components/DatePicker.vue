@@ -1,5 +1,6 @@
 <template lang='pug'>
   .datepicker__wrapper(v-if='show')
+    //button(@click='isOpen = !isOpen') Open
     .datepicker__close-button.-hide-on-desktop(v-if='isOpen' @click='hideDatepicker') ＋
     .datepicker( :class='`${ !isOpen ? "datepicker--closed" : "datepicker--open" }`')
       .-hide-on-desktop
@@ -190,9 +191,6 @@ export default {
   watch: {
     isOpen (value) {
       if (this.screenSize === 'smartphone') {
-        console.debug('this.screenSize === smartphone');
-        console.debug(value);
-
         if (value) {
           document.querySelector('body').classList.add('-overflow-hidden');
         }
@@ -203,7 +201,7 @@ export default {
     },
 
     checkIn(newDate) {
-      this.$emit("checkInChanged", newDate )
+      this.$emit("checkInChanged", newDate)
     },
 
     checkOut(newDate) {
@@ -227,8 +225,6 @@ export default {
 
     handleWindowResize() {
       let screenSizeInEm = window.innerWidth;
-
-      console.debug(screenSizeInEm);
 
       if (screenSizeInEm <= 664) {
         this.screenSize = 'smartphone';

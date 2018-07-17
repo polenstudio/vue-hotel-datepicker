@@ -73,6 +73,8 @@ export default {
   getNextMonth(date){
     let nextMonth;
 
+    this.$emit('nextMonth');
+
     if (date.getMonth() == 11) {
       nextMonth = new Date(date.getFullYear() + 1, 0, 1);
     } else {
